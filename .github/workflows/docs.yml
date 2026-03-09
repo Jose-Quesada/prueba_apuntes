@@ -1,29 +1,46 @@
-name: Documentation
+name: Publicar Zensical
+
 on:
   push:
     branches:
-      - master
       - main
+      - master
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+        
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: Instalar Zensical
+        run: pip install zensical
+        
+      - name: Compilar la web
+        run: zensical build
+        
+      - name: Preparar los archivos
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'site'
+
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    needs: build
     steps:
-      - uses: actions/configure-pages@v5
-      - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-      - run: pip install zensical
-      - run: zensical build --clean
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: site
-      - uses: actions/deploy-pages@v4
+      - name: Publicar web en GitHub Pages
         id: deployment
+        uses: actions/deploy-pages@v4

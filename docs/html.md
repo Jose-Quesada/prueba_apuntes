@@ -210,7 +210,7 @@ Antes se necesitaba Flash; ahora es nativo:
 </body>
 </html>
 ```
-
+### Etiquetas básicas
 
 CSS (Hojas de Estilo en Cascada) se encarga de la apariencia, el diseño visual y el estilo (el "cómo se ve")
 .
