@@ -1,0 +1,2 @@
+.venv\Scripts\actívate
+zensical serve
